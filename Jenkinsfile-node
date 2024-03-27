@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+        docker {
+            image 'node:20-alpine'
+        }
+    }
+    stages {
+        stage('Build Node App') {
+            steps {
+                sh 'npm install -y --force'
+                sh 'echo "NEXT_PUBLIC_BASE_URL = https://next.smartesaver.com/api/konnektive/v2/" > .env.production'
+                sh 'echo "NEXT_PUBLIC_SITE_URL = https://next.smartesaver.com" >> .env.production'
+                sh 'cat .env.production'
+                sh 'npm run lint:fix'
+                sh 'npm run build'
+                sh 'ls -lh build/'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'Garnet VPS', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/home/smartesaver-next/htdocs/next.smartesaver.com', remoteDirectorySDF: false, removePrefix: 'build/', sourceFiles: 'build/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
+    }
+    post {
+        success {
+            emailext attachLog: true, body: "The dev site for next.smartesaver.com has been rebuilt successfully and deployed.", compressLog: true, subject: "Jenkins: Success - next.smartesaver.com", to: "$DEPLOY_EMAIL"
+        }
+        failure {
+            emailext attachLog: true, body: "The dev site for next.smartesaver.com has failed to rebuild and deploy.", compressLog: true, subject: "Jenkins: Failed - next.smartesaver.com", to: "$DEPLOY_EMAIL"
+        }
+    }
+}

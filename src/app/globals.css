@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: theme("colors.white");
+}
+
+/* HIDE INPUT TYPE NUMBER ARROWS */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* intl-tel-input Overides */
+.intl-tel-input .selected-flag {
+  display: flex !important;
+  padding: 0 6px 0 8px;
+}
+
+.intl-tel-input .selected-dial-code {
+  padding: 0 !important;
+  margin-left: 6px;
+}
+
+.intl-tel-input .flag-container .arrow {
+  font-size: 12px !important;
+}

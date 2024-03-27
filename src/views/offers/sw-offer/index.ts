@@ -1,0 +1,9 @@
+export { default as SwDownsell } from "./downsell";
+export { default as SwHeater } from "./heater";
+export { default as SwOffer } from "./offer";
+export { default as SwThankYou } from "./thank-you";
+export { default as SwUpsell } from "./upsell";
+export { default as SwWmtablet } from "./wmtablet";
+export { default as SwFsaver } from "./f-saver";
+export { default as SwLaundry } from "./laundry";
+export { default as Terms } from "./terms-conditions";
